@@ -1,0 +1,58 @@
+========= Summary results of SmallCrush =========
+
+ Version:          TestU01 1.2.3
+ Generator:        OCaml stdlib generator
+ Number of statistics:  15
+ Total CPU time:   00:00:09.84
+
+ All tests were passed
+
+seed = 575738672
+
+
+
+========= Summary results of Crush =========
+
+ Version:          TestU01 1.2.3
+ Generator:        OCaml stdlib generator
+ Number of statistics:  144
+ Total CPU time:   00:50:18.23
+ The following tests gave p-values outside [0.001, 0.9990]:
+ (eps  means a value < 1.0e-300):
+ (eps1 means a value < 1.0e-15):
+
+       Test                          p-value
+ ----------------------------------------------
+ 32  Gap, r = 27                      eps
+ 51  WeightDistrib, r = 0             eps
+ ----------------------------------------------
+ All other tests were passed
+
+seed = 1758132715
+
+
+
+========= Summary results of BigCrush =========
+
+ Version:          TestU01 1.2.3
+ Generator:        OCaml stdlib generator
+ Number of statistics:  160
+ Total CPU time:   07:17:11.02
+ The following tests gave p-values outside [0.001, 0.9990]:
+ (eps  means a value < 1.0e-300):
+ (eps1 means a value < 1.0e-15):
+
+       Test                          p-value
+ ----------------------------------------------
+ 35  Gap, r = 25                      eps
+ 61  WeightDistrib, r = 28            eps
+ 64  WeightDistrib, r = 26            eps
+ 76  RandomWalk1 H (L=1000, r=0)     3.5e-5
+ 97  HammingIndep, L=300, r=0       5.5e-10
+ ----------------------------------------------
+ All other tests were passed
+
+seed = 3968038064
+
+
+
