@@ -1,9 +1,12 @@
 
 (* Copy of the OCaml stdlib PRNG, modified to return 32 bits of data
    when calling the [bits] function.
+   Also modified to add a multiplicative post-processing step.
 
    Of course, this will only work on 64-bit machines.
  *)
+
+let multiplier = ref 1
 
 external random_seed: unit -> int array = "caml_sys_random_seed"
 
@@ -60,7 +63,7 @@ module State = struct
                  + (curval lxor ((curval lsr 25) land 0x1F)) in
     let newval30 = newval land 0xFFFFFFFF in
     s.st.(s.idx) <- newval30;
-    (newval30 * 1618033989) land 0xFFFFFFFF
+    (newval30 land 0xFFFFFFFF) * !multiplier
 
   (* Version of the [bits] function that returns 30 bits as usual. *)
   let bits s = bits32 s land 0x3FFFFFFF

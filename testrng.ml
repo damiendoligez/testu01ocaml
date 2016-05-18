@@ -13,17 +13,16 @@ let usage =
   \  one of -30, -32, -32mul must be specified"
 
 let rev = ref false
-type algorithm = Null | R30 | R32 | R32mul
+type algorithm = R30 | R32
 let algo_to_string a =
   match a with
-  | Null -> "(null)"
   | R30 -> "30"
   | R32 -> "32"
-  | R32mul -> "32mul"
-let algo = ref Null
+let algo = ref R32
 type test = Small | Crush | Big
 let test = ref Crush
 let seed = Random.self_init (); ref (Random.bits ())
+let mult = ref 1
 
 let set r x = Arg.Unit (fun () -> r := x)
 
@@ -31,7 +30,7 @@ let argspec = [
   "-r", Arg.Set rev, " reverse the bits from the PRNG";
   "-30", set algo R30, " test the stdlib 30-bit PRNG";
   "-32", set algo R32, " test the 32-bit PRNG";
-  "-32mul", set algo R32mul, " test the 32-bit PRNG with output multiplier";
+  "-mul", Arg.Set_int mult, "<n> set output multiplier to <n> (default 1)";
   "-small", set test Small, " use the SmallCrush test suite";
   "-crush", set test Crush, " use the Crush test suite (default)";
   "-big", set test Big, " use the BigCrush test suite";
@@ -50,7 +49,6 @@ let rev30 n = (rev32 n) lsr 2
   Arg.parse argspec (fun n -> seed := int_of_string n) usage;
   let float, bits =
     match !algo, !rev with
-    | Null, _ -> Arg.usage argspec usage; exit 2
     | R30, false ->
         Random.init !seed;
         Random.float, Random.bits
@@ -58,17 +56,13 @@ let rev30 n = (rev32 n) lsr 2
         Random.init !seed;
         Random.float, fun () -> rev30 (Random.bits ())
     | R32, false ->
-        Random32.init !seed;
-        Random32.float, Random32.bits
-    | R32, true ->
-        Random32.init !seed;
-        Random32.float, fun () -> rev32 (Random32.bits ())
-    | R32mul, false ->
+        Random32mul.multiplier := !mult;
         Random32mul.init !seed;
         Random32mul.float, Random32mul.bits
-    | R32mul, true ->
+    | R32, true ->
+        Random32mul.multiplier := !mult;
         Random32mul.init !seed;
-        Random32.float, fun () -> rev32 (Random32mul.bits ())
+        Random32mul.float, fun () -> rev32 (Random32mul.bits ())
   in
   let get_random_floats n = Array.init n (fun _ -> float 1.0) in
   let get_random_bits n = Array.init n (fun _ -> bits ()) in
@@ -81,4 +75,5 @@ let rev30 n = (rev32 n) lsr 2
   | Big -> bigcrush ();
   end;
 
-  Printf.printf "generator = %s; seed = %d\n%!" (algo_to_string !algo) !seed;
+  Printf.printf "generator = %s; multiplier = %d; seed = %d\n%!"
+                (algo_to_string !algo) !mult !seed;

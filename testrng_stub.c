@@ -81,6 +81,7 @@ CAMLprim value smallcrush (value unit)
    unif01_Gen *gen;
    gen = unif01_CreateOCamlGen ();
    bbattery_SmallCrush (gen);
+   fflush (stdout);
    unif01_DeleteOCamlGen (gen);
    return Val_unit;
 }
@@ -90,6 +91,7 @@ CAMLprim value crush (value unit)
    unif01_Gen *gen;
    gen = unif01_CreateOCamlGen ();
    bbattery_Crush (gen);
+   fflush (stdout);
    unif01_DeleteOCamlGen (gen);
    return Val_unit;
 }
@@ -99,6 +101,7 @@ CAMLprim value bigcrush (value unit)
    unif01_Gen *gen;
    gen = unif01_CreateOCamlGen ();
    bbattery_BigCrush (gen);
+   fflush (stdout);
    unif01_DeleteOCamlGen (gen);
    return Val_unit;
 }
