@@ -63,7 +63,7 @@ module State = struct
                  + (curval lxor ((curval lsr 25) land 0x1F)) in
     let newval30 = newval land 0xFFFFFFFF in
     s.st.(s.idx) <- newval30;
-    (newval30 land 0xFFFFFFFF) * !multiplier
+    (newval30 * !multiplier) land 0xFFFFFFFF
 
   (* Version of the [bits] function that returns 30 bits as usual. *)
   let bits s = bits32 s land 0x3FFFFFFF

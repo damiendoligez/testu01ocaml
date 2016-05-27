@@ -9,8 +9,8 @@ INCLUDE = -ccopt -I -ccopt tu01/include
 LIBS = -cclib tu01/lib/libtestu01.a -cclib tu01/lib/libprobdist.a \
        -cclib tu01/lib/libmylib.a
 
-testrng: testrng_stub.c random32mul.ml testrng.ml
-	ocamlopt ${INCLUDE} $^ ${LIBS} -o testrng
+testrng: testrng_stub.c random32.ml random32mul.ml testrng.ml
+	ocamlopt -g -ccopt -g ${INCLUDE} $^ ${LIBS} -o testrng
 
 clean:
 	rm -f *.cm[aiotx] *.o testrng
