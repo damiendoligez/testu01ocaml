@@ -10,7 +10,7 @@ external bigcrush : unit -> unit = "bigcrush"
 
 let usage =
   "usage: testrng [options] [seed]\n\
-  \  one of -30, -32, -32mul must be specified"
+  \  one of -30 or -32 must be specified"
 
 let rev = ref false
 type algorithm = R30 | R32
